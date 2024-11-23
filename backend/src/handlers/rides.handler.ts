@@ -5,42 +5,48 @@ import { ConfirmRideDto } from "../dtos/confirmRideDto";
 import { GetRidesResponseDto } from "../dtos/getRidesResponseDto";
 import { GetEstimatedRideParams } from "../types/params";
 import { CreateRideResponseDto } from "../dtos/createRideResponseDto";
+import { createRideService } from "../services/createRide.service";
 
-export async function createEstimatedRideHandler(request: Request<{}, {}, CreateEstimatedRideDto>, response: Response<CreateRideResponseDto>) {
-    response.status(200).send({
-        origin: {
-           latitude: 123,
-            longitude: 123
-        },
-        destination: {
-            latitude: 456,
-            longitude: 456
-        },
-        distance: 125,
-        duration: "string",
-        options: [
-            {
-            id: 1235,
-            name: "string",
-            description: "string",
-            vehicle: "string",
-            review: {
-                rating: 1235,
-                comment: "string"
-            },
-            value: 1235
-            }
-        ],
-        routeResponse: {}
-       })
+export async function createEstimatedRideHandler(request: Request<{}, {}, CreateEstimatedRideDto>, response: Response) {
+
+    if (!request.body.customer_id) {
+        response.status(400).json({
+            error_code: "INVALID_DATA",
+            error_description: "Preencha o campo de id de usuário"
+        });
+    };
+
+    if (!request.body.origin) {
+        response.status(400).json({
+            error_code: "INVALID_DATA",
+            error_description: "Preencha o campo de endereço de origem"
+        });
+    };
+
+    if (!request.body.destination) {
+        response.status(400).json({
+            error_code: "INVALID_DATA",
+            error_description: "Preencha o campo de endereço de destino"
+        });
+    };
+
+    if (request.body.origin === request.body.destination) {
+        response.status(400).json({
+            error_code: "INVALID_DATA",
+            error_description: "Endereços de origem e destino iguais"
+        });
+    };
+
+    const createResponse: CreateRideResponseDto = await createRideService(request.body);
+
+    response.status(200).send(createResponse);
 }
 
 export async function confirmRideHandler(request: Request<{}, {}, {}, ConfirmRideDto>, response: Response) {
-    response.status(200).send({success: true})
+    response.status(200).send({success: true});
 }
 
 export async function getRidesByUserHandler(request: Request<GetEstimatedRideParams, {}, {}, GetEstimatedRideQueryParams>, response: Response<GetRidesResponseDto>) {
-    console.log(request)
     response.status(200).send({
         customer_id: request.params.id,
         rides: [

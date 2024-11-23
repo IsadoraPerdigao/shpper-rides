@@ -9,18 +9,17 @@ export interface CreateRideResponseDto {
     },
     distance: number;
     duration: string;
-    options: [
-        {
-            id: number;
-            name: string;
-            description: string;
-            vehicle: string;
-            review: {
-                rating: number;
-                comment: string;
-                },
-            value: number;
-        }
-    ],
+    options: {
+        id: number;
+        name: string;
+        description: string;
+        car: string;
+        review: {
+            rating: number;
+            comment: string;
+            },
+        value: number;
+    }[]
+    ,
     routeResponse: object;
 }
