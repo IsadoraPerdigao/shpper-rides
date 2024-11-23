@@ -18,7 +18,7 @@ export interface CreateRideResponseDto {
             rating: number;
             comment: string;
             },
-        value: number;
+        value?: number;
     }[]
     ,
     routeResponse: object;
