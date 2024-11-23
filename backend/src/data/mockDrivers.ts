@@ -29,7 +29,7 @@ export const mockDrivers = [
         description: "Boa noite, sou James Bond. À seu dispor para um passeio suave e discreto. Aperte o cinto e aproveite a viagem.",
         car: "Aston Martin DB5 clássico",
         review: {
-            rating: 2,
+            rating: 5,
             comment: "Serviço impecável! O motorista é a própria definição de classe e o carro é simplesmente magnífico. Uma experiência digna de um agente secreto."
         },
         tax: 10,
