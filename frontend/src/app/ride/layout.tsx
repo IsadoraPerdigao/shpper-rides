@@ -16,13 +16,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <title>Meu Layout - Next.js</title>
         <meta name="description" content="Exemplo de layout com Next.js" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>
-      
-      <Header />
-      
-      <main>{children}</main>
+      </Head>  
+      <div className='flex flex-col items-center'>
+        <Header />
+        
+            <main className=" m-0 p-5 w-11/12 h-screen flex flex-col">{children}</main>
 
-      <Footer />
+        <Footer />
+        </div>    
     </>
   );
 };
