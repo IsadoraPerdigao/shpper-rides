@@ -28,6 +28,7 @@ const createTables = () => {
   // Create the Rides table
   db.exec(`
     CREATE TABLE IF NOT EXISTS Rides (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
       customer_id TEXT NOT NULL,
       driver_id INTEGER,
       origin TEXT NOT NULL,
@@ -41,6 +42,7 @@ const createTables = () => {
       FOREIGN KEY (driver_id) REFERENCES Drivers(id)
     );
   `);
+  
 
   // Create the Estimates table
   db.exec(`
