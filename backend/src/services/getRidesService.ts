@@ -20,12 +20,12 @@ export function getRidesService (customerId: string, driverId?: number) {
         let duration = ride.duration;
         let value = ride.value;
         let driverIdBd = ride.driver_id;
-
-        const [dateStr, timeStr] = ride.date.split(', ');  // Split date and time
-        const [day, month, year] = dateStr.split('/');    // Split day, month, year
-        const [hours, minutes, seconds] = timeStr.split(':');  // Split hours, minutes, seconds
         
-        // Convert to YYYY-MM-DDTHH:mm:ss format which JavaScript can understand
+        const [dateStr, timeStr] = ride.date.toLocaleString().split(', '); 
+        const [day, month, year] = dateStr.split('/');    
+        const [hours, minutes, seconds] = timeStr.split(':');  
+        
+        // Convert to date format
         let date = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
 
         console.log(ride.date)

@@ -27,10 +27,16 @@ export async function createRideService (rideInfo: CreateEstimatedRideDto): Prom
     }
 
     try {
-        // Insert data into Customers table
-        const insertCustomer = db.prepare(`INSERT INTO Customers (id)
-            VALUES (?)`)
-            insertCustomer.run(rideInfo.customer_id)
+        // Check if the customer is already in Customers table
+        const checkCustomerExists = db.prepare(`SELECT * FROM Customers WHERE id = ?`).all(rideInfo.customer_id);
+
+        // Insert data into Customers table if customer doesn't exist
+        if (checkCustomerExists.length == 0) {
+            const insertCustomer = db.prepare(`INSERT INTO Customers (id)
+                VALUES (?)`)
+                insertCustomer.run(rideInfo.customer_id)
+        }
+
         // Insert data into Estimates table
         const insertEstimatedRides = db.prepare(`INSERT INTO Estimates (customer_id, origin, origin_lat, origin_lng, destination, destination_lat, destination_lng, estimated_distance_km)
             VALUES (?, ?, ?, ?, ?, ?, ?, ?)`);
