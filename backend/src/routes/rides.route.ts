@@ -1,6 +1,8 @@
 import { Router } from "express";
 import { confirmRideHandler, createEstimatedRideHandler, getRidesByUserHandler } from "../handlers/rides.handler";
 import { ensureDataIsValidMiddleware } from "../middlewares/ensureDataIsValid";
+import { ensureIdIsValidMiddleware } from "../middlewares/ensureIdIsValid";
+import { ensureDriverIdIsValidMiddleware } from "../middlewares/ensureDriverIdIsValid";
 
 const router = Router();
 
@@ -11,6 +13,6 @@ router.post("/estimate", ensureDataIsValidMiddleware, createEstimatedRideHandler
 router.patch("/confirm", ensureDataIsValidMiddleware, confirmRideHandler);
 
 // /ride/123
-router.get("/:id", getRidesByUserHandler);
+router.get("/:id", ensureIdIsValidMiddleware, ensureDriverIdIsValidMiddleware, getRidesByUserHandler);
 
 export default router
