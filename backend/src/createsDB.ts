@@ -20,7 +20,7 @@ const createTables = () => {
       vehicle TEXT NOT NULL,
       raiting INTEGER,
       comment TEXT NOT NULL,
-      tax FLOAT,
+      tax REAL,
       minKm INTEGER
     );
   `);
@@ -33,11 +33,10 @@ const createTables = () => {
       driver_id INTEGER,
       origin TEXT NOT NULL,
       destination TEXT NOT NULL,
-      price FLOAT,
-      distance_km FLOAT,
+      distance_km REAL,
       duration TEXT,
-      date TEXT,
-      value FLOAT,
+      date DATETIME,
+      value REAL,
       FOREIGN KEY (customer_id) REFERENCES Customers(id),
       FOREIGN KEY (driver_id) REFERENCES Drivers(id)
     );

@@ -8,6 +8,6 @@ export type Ride = {
     price: null;
     distance_km: number;
     duration: string;
-    date: string;
+    date: Date;
     value: number;
 }

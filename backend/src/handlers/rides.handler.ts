@@ -10,9 +10,15 @@ import { confirmRideService } from "../services/confirmRideService";
 import { getRidesService } from "../services/getRidesService";
 
 export async function createEstimatedRideHandler(request: Request, response: Response) {
-    const createResponse: CreateRideResponseDto = await createRideService(request.body);
-
-    response.status(200).send(createResponse);
+    try {
+        const createResponse: CreateRideResponseDto = await createRideService(request.body);
+        
+        response.status(200).send(createResponse);
+    } catch (error) {
+        response.status(404).json(
+            {error_code: "INVALID_DATA", error_description: "Endereço não encontrado"});
+    }
+    
 }
 
 export async function confirmRideHandler(request: Request, response: Response) {
