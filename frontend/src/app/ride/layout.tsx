@@ -1,11 +1,27 @@
-import React from "react";
+import React from 'react';
+import { ReactNode } from 'react';
+import Head from 'next/head';
+import Header from '@/components/header';
 
-export default function Layout ({ children }: { children: React.ReactNode}) {
-    return (
-        <div>
-            <header>HEADER</header>
-            <main>{children}</main>
-            <footer>FOOTER</footer>        
-        </div>
-    )
+// Tipagem para o componente Layout, indicando que ele recebe children (conteúdo da página)
+interface LayoutProps {
+  children: ReactNode;
 }
+
+const Layout: React.FC<LayoutProps> = ({ children }) => {
+  return (
+    <>
+      <Head>
+        <title>Meu Layout - Next.js</title>
+        <meta name="description" content="Exemplo de layout com Next.js" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      
+      <Header />
+      
+      <main>{children}</main>
+    </>
+  );
+};
+
+export default Layout;
