@@ -2,9 +2,13 @@ import { getDB } from "../database";
 import { Drivers } from "../types/drivers";
 import { Ride } from "../types/ride";
 
-export function getRidesService (customerId: string) {
+export function getRidesService (customerId: string, driverId?: number) {
     const db = getDB()
-    const ridesDb = db.prepare(`SELECT * FROM Rides WHERE customer_id = ?`).all(customerId) as Ride[];
+    let ridesDb = db.prepare(`SELECT * FROM Rides WHERE customer_id = ?`).all(customerId) as Ride[];
+
+    if (driverId) {
+        ridesDb = db.prepare(`SELECT * FROM Rides WHERE customer_id = ? AND driver_id = ?`).all(customerId, driverId) as Ride[];
+    }
     
     const ridesResponse = [];
 
@@ -16,13 +20,13 @@ export function getRidesService (customerId: string) {
         let destination = ride.destination;
         let duration = ride.duration;
         let value = ride.value;
-        let driverId = ride.driver_id;
+        let driverIdBd = ride.driver_id;
 
-        const driversDb = db.prepare(`SELECT * FROM Drivers WHERE id = ?`).all(driverId) as Drivers[];
+        const driversDb = db.prepare(`SELECT * FROM Drivers WHERE id = ?`).all(driverIdBd) as Drivers[];
         
         for (let index =0; index < driversDb.length; index++) {
             let driver = {
-                driverId,
+                driverIdBd,
                 name: driversDb[index].name
             };
 

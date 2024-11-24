@@ -22,7 +22,10 @@ export async function confirmRideHandler(request: Request, response: Response) {
 }
 
 export async function getRidesByUserHandler(request: Request, response: Response) {
-    const rides = getRidesService(request.params.id);
+    const id = request.params.id;
+    const driverId = request.query.driver_id
     
+    const rides = getRidesService(id, driverId as number | undefined);
+
     response.status(200).send(rides);
 }
