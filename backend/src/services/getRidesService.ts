@@ -15,12 +15,20 @@ export function getRidesService (customerId: string, driverId?: number) {
     for (let i = 0; i < ridesDb.length; i++) {
         let ride = ridesDb[i];
         let rideId = ride.id;
-        let date = ride.date;
         let origin = ride.origin;
         let destination = ride.destination;
         let duration = ride.duration;
         let value = ride.value;
         let driverIdBd = ride.driver_id;
+
+        const [dateStr, timeStr] = ride.date.split(', ');  // Split date and time
+        const [day, month, year] = dateStr.split('/');    // Split day, month, year
+        const [hours, minutes, seconds] = timeStr.split(':');  // Split hours, minutes, seconds
+        
+        // Convert to YYYY-MM-DDTHH:mm:ss format which JavaScript can understand
+        let date = new Date(`${year}-${month}-${day}T${hours}:${minutes}:${seconds}`);
+
+        console.log(ride.date)
 
         const driversDb = db.prepare(`SELECT * FROM Drivers WHERE id = ?`).all(driverIdBd) as Drivers[];
         
@@ -42,6 +50,6 @@ export function getRidesService (customerId: string, driverId?: number) {
         };
     };
     
-    return ridesResponse;
+    return ridesResponse.sort((a, b) => b.date.getTime() - a.date.getTime());
 
 } 

@@ -11,7 +11,7 @@ export const ensureDriverIdIsValidMiddleware = async (request: Request, response
         response
         .status(404)
         .json({
-            error_code: "NO_RIDES_FOUND", 
+            error_code: "INVALID_DRIVER", 
             error_description: "Nenhum motorista encontrado"
         });
     };
