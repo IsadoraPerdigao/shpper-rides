@@ -2,6 +2,7 @@ import React from 'react';
 import { ReactNode } from 'react';
 import Head from 'next/head';
 import Header from '@/components/header';
+import Footer from '@/components/footer';
 
 // Tipagem para o componente Layout, indicando que ele recebe children (conteúdo da página)
 interface LayoutProps {
@@ -20,6 +21,8 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       <Header />
       
       <main>{children}</main>
+
+      <Footer />
     </>
   );
 };
