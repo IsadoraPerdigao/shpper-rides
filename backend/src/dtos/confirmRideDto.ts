@@ -1,5 +1,5 @@
 export interface ConfirmRideDto {
-    customer_id: string;
+    customerId: string;
     origin: string;
     destination: string;
     distance: number;
