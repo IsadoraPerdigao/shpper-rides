@@ -15,4 +15,4 @@ router.patch("/confirm", ensureDataIsValidMiddleware, confirmRideHandler);
 // /ride/123
 router.get("/:id", ensureIdIsValidMiddleware, ensureDriverIdIsValidMiddleware, getRidesByUserHandler);
 
-export default router
+export default router;
