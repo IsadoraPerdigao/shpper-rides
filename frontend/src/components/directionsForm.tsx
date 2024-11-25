@@ -29,7 +29,9 @@ export default function DirectionsForm ({ setCustomer_id, setOrigin, setDestinat
             destination,
         };
         // Saves customer_id to localstorage
-        localStorage.setItem("customer_id", customer_id)
+        localStorage.setItem("customer_id", customer_id);
+        localStorage.setItem("origin_address", origin);
+        localStorage.setItem("destination_address", destination);
 
         try {
 
@@ -47,7 +49,6 @@ export default function DirectionsForm ({ setCustomer_id, setOrigin, setDestinat
             }
 
             const result = await response.json(); 
-            console.log('Backend response:', result);
             setApiResult(result)
 
             const encodedOrigin = encodeURIComponent(origin);

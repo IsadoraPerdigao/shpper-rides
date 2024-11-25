@@ -38,6 +38,9 @@ export default function DriversList({apiResult} : {apiResult: ApiResult}) {
                     value={driver.value}
                     about={driver.description}
                     comment={driver.review.comment}
+                    id={driver.id}
+                    distance={apiResult.distance}
+                    duration={apiResult.duration}
                 />
             ))}
         </div>
