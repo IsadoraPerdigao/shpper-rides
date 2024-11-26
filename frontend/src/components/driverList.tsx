@@ -3,8 +3,10 @@ import { ApiResult } from "@/app/ride/estimate/page";
 import homerImg from "../assets/homer.jpeg"
 import toretto from "../assets/toretto.jpeg"
 import bond from "../assets/bond.jpeg"
+import { useResultContext } from "@/contexts/result.context";
 
-export default function DriversList({apiResult} : {apiResult: ApiResult}) {
+export default function DriversList() {
+    const { apiResult } = useResultContext()
     const driversInfo = []
 
 

@@ -2,10 +2,10 @@
 
 import car_app from "../assets/car_app.jpeg"
 import Image from "next/image";
-import { useApiResultContext } from "@/contexts/apiResult";
+import { useResultContext } from "@/contexts/result.context";
 
 export default function DirectionsForm () {
-    const { setCustomer_id, setOrigin, setDestination, setRouteUrl, customer_id, origin, destination, setApiResult } = useApiResultContext();
+    const { setCustomer_id, setOrigin, setDestination, setRouteUrl, customer_id, origin, destination, setApiResult } = useResultContext();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -16,10 +16,6 @@ export default function DirectionsForm () {
             origin,
             destination,
         };
-        // Saves customer_id to localstorage
-        localStorage.setItem("customer_id", customer_id);
-        localStorage.setItem("origin_address", origin);
-        localStorage.setItem("destination_address", destination);
 
         try {
 

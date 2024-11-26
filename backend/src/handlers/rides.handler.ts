@@ -1,13 +1,8 @@
 import { Request, Response } from "express-serve-static-core";
-import { CreateEstimatedRideDto } from "../dtos/createEstimatedRide.dto";
-import { GetEstimatedRideQueryParams } from "../types/query-params"
-import { ConfirmRideDto } from "../dtos/confirmRideDto";
-import { GetRidesResponseDto } from "../dtos/getRidesResponseDto";
-import { GetEstimatedRideParams } from "../types/params";
 import { CreateRideResponseDto } from "../dtos/createRideResponseDto";
 import { createRideService } from "../services/createRide.service";
 import { confirmRideService } from "../services/confirmRideService";
-import { getRidesService } from "../services/getRidesService";
+import { getRidesService } from "../services/getRides.service";
 
 export async function createEstimatedRideHandler(request: Request, response: Response) {
     try {

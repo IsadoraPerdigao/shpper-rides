@@ -2,28 +2,8 @@
 
 import DirectionsForm from "@/components/directionsForm";
 import DriversList from "@/components/driverList";
-import { useApiResultContext } from "@/contexts/apiResult";
+import { useResultContext } from "@/contexts/result.context";
 import Image from "next/image";
-
-export interface ApiResult {
-  destination: object;
-  origin: object;
-  options: {
-    id: number;
-    name: string;
-    driverImg: string;
-    description: string;
-    car: string;
-    review: {
-      comment: string;
-      rating: number;
-    };
-    value: number;
-  }[];
-  distance: number;
-  duration: string;
-  routeResponse: object;
-}
 
 export default function EstimateRidePage() {
 
@@ -32,13 +12,13 @@ export default function EstimateRidePage() {
   const {
     apiResult,
     routeUrl
-  } = useApiResultContext();
+  } = useResultContext();
 
   return (
     <div className="flex">
       <div className="flex flex-col w-2/5 h-full">
         {routeUrl ? (
-          <DriversList apiResult={apiResult} />
+          <DriversList  />
         ) : (
           <DirectionsForm/>
         )}

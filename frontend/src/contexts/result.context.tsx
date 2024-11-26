@@ -1,9 +1,11 @@
 "use client";
 
-import { ApiResult } from "@/app/ride/estimate/page";
+import { ApiResult } from "@/interfaces/interfaces";
 import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
 
 export type SubmitHandler = (event: React.FormEvent) => Promise<void>;
+
+type GetRides = (customer_id: string, driver_id?: number) => Promise<void>
 
 interface Props {
   children: ReactNode;
@@ -16,6 +18,7 @@ interface GetResult {
     origin: string;
     destination: string;
     duration: string;
+    distance: number;
     driver: {
         driverIdBd: number;
         name: string;
@@ -23,7 +26,7 @@ interface GetResult {
     value: number;
 }
 
-interface apiResultProvider {
+interface ResultProvider {
     customer_id: string;
     setCustomer_id: Dispatch<SetStateAction<string>>;
     setOrigin: Dispatch<SetStateAction<string>>;
@@ -35,13 +38,14 @@ interface apiResultProvider {
     origin: string;
     destination: string;
     setApiResult: Dispatch<SetStateAction<ApiResult>>;
-    setGetResult: Dispatch<SetStateAction<GetResult>>
-    result: GetResult;
+    setGetResult: Dispatch<SetStateAction<GetResult[]>>
+    result: GetResult[];
+    getRides: GetRides;
 }
 
-const ApiResutContext = createContext({} as apiResultProvider);
+const ResutContext = createContext({} as ResultProvider);
 
-export function ApiResultProvider({ children }: Props) {
+export function ResultProvider({ children }: Props) {
   const [customer_id, setCustomer_id] = useState("");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
@@ -54,18 +58,7 @@ export function ApiResultProvider({ children }: Props) {
     duration: "",
     routeResponse: {},
   });
-  const [result, setGetResult] = useState<GetResult>({
-    id: 0,
-    date: new Date(),
-    origin: "",
-    destination: "",
-    duration: "",
-    driver: {
-        driverIdBd: 0,
-        name: ""
-    },
-    value: 0
-  });
+  const [result, setGetResult] = useState<GetResult[]>([]);
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -76,10 +69,6 @@ export function ApiResultProvider({ children }: Props) {
       origin,
       destination,
     };
-    // Saves customer_id to localstorage
-    localStorage.setItem("customer_id", customer_id);
-    localStorage.setItem("origin_address", origin);
-    localStorage.setItem("destination_address", destination);
 
     try {
       // Send form data to the backend
@@ -97,6 +86,7 @@ export function ApiResultProvider({ children }: Props) {
 
       const result = await response.json();
       setApiResult(result);
+      setCustomer_id(customer_id)
 
       const encodedOrigin = encodeURIComponent(origin);
       const encodedDestination = encodeURIComponent(destination);
@@ -109,9 +99,32 @@ export function ApiResultProvider({ children }: Props) {
     }
   };
 
+  const getRides = async (customer_id: string, driver_id?: number) => {
+    try {
+      const response = await fetch(
+        `http://localhost:8080/ride/${customer_id}${driver_id ? `?driver_id=${driver_id}` : ''}`,
+        {
+          method: "GET",
+          headers: {
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok) {
+        throw new Error(`HTTP error! Status: ${response.status}`);
+      }
+
+      const result = await response.json();
+      setGetResult(result);
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+    }
+  }
+
 
   return (
-    <ApiResutContext.Provider value={{
+    <ResutContext.Provider value={{
         customer_id,
         setCustomer_id,
         setOrigin,
@@ -124,9 +137,10 @@ export function ApiResultProvider({ children }: Props) {
         destination,
         setApiResult,
         setGetResult,
-        result
-    }}>{children}</ ApiResutContext.Provider >
+        result, 
+        getRides
+    }}>{children}</ ResutContext.Provider >
   )
 }
 
-export const useApiResultContext = () => useContext(ApiResutContext);
+export const useResultContext = () => useContext(ResutContext);

@@ -1,8 +1,15 @@
 import { Request, Response } from "express";
-import { getRidesByCustomerService } from "../services/getRides";
+import { getDriversByCustomerService } from "../services/getDriversByCustomer.service";
+import { getDriversService } from "../services/getAllDrivers.service";
 
-export async function getDriversDataHandler (request: Request, response: Response) {
-    const rides = getRidesByCustomerService(request.params.customer_id)
+export async function getDriversByCustomerHandler (request: Request, response: Response) {
+    const drivers = getDriversByCustomerService(request.params.id)
 
-    response.status(200).json(rides)
+    response.status(200).json(drivers)
+}
+
+export async function getDriversHandler (request: Request, response: Response) {
+    const drivers = getDriversService()
+
+    response.status(200).json(drivers)
 }

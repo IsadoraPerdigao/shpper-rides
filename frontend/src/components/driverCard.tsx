@@ -1,28 +1,19 @@
 "use client"
 
+import { useDriversContext } from "@/contexts/drivers.context";
+import { useResultContext } from "@/contexts/result.context";
+import { DriverProps } from "@/interfaces/interfaces";
 import Image from "next/image"
 import { useRouter } from "next/navigation";
 
-export type DriverProps = {
-    id: number;
-    driverImg: string;
-    name: string;
-    car: string;
-    rating: number;
-    value: number;
-    about: string;
-    comment: string;
-    distance: number;
-    duration: string;
-};
-
 export default function DriverCard ({ id, driverImg, car, rating, value, about, comment, name, distance, duration }: DriverProps) {
     const router = useRouter();
+    const { customer_id, setCustomer_id } = useResultContext()
+    const { setDriver } = useDriversContext()
 
     const handleClick = async (event: React.FormEvent) => {
         event.preventDefault();
-        
-        const customer_id = localStorage.getItem("customer_id");
+
         const origin = localStorage.getItem("origin_address");
         const destination = localStorage.getItem("destination_address");
         const requestBody = {
@@ -58,6 +49,8 @@ export default function DriverCard ({ id, driverImg, car, rating, value, about, 
         }; 
 
         router.replace(`http://localhost:3000/ride/${customer_id}`);
+        
+        setDriver({id, name});
     }
 
 

@@ -62,13 +62,8 @@ export async function getRoute(originAddress: string, destinationAddress: string
             throw new Error("No route found between origin and destination");
         }
 
-        const route = response.data.routes[0];
-        return {
-            distance: route.legs[0].distance.text,
-            duration: route.legs[0].duration.text,
-            steps: route.legs[0].steps,
-            teste: route.legs
-        };
+        return response.data.routes[0];
+        
     } catch (error) {
         console.error("Error getting directions:", error)
     }

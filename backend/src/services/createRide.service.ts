@@ -3,7 +3,7 @@ import { getDB } from "../database";
 import { CreateEstimatedRideDto } from "../dtos/createEstimatedRide.dto";
 import { CreateRideResponseDto } from "../dtos/createRideResponseDto";
 import { Drivers } from "../types/drivers";
-import { getCoordinates, getDistance } from "./googleMaps.service";
+import { getCoordinates, getDistance, getRoute } from "./googleMaps.service";
 
 export async function createRideService (rideInfo: CreateEstimatedRideDto): Promise<CreateRideResponseDto> {
     const db = getDB()
@@ -11,6 +11,7 @@ export async function createRideService (rideInfo: CreateEstimatedRideDto): Prom
     const originCoordinates = await getCoordinates(rideInfo.origin);
     const destinationCoordinates = await getCoordinates(rideInfo.destination);
     const distanceDuration = await getDistance(rideInfo.origin, rideInfo.destination);
+    const routeResponse = await getRoute(rideInfo.origin, rideInfo.destination)
 
     const distance = parseFloat(distanceDuration.distance.split(" ")[0])
     const driversList = []
@@ -57,6 +58,6 @@ export async function createRideService (rideInfo: CreateEstimatedRideDto): Prom
          distance: distance,
          duration: distanceDuration.duration,
          options: driversList,
-         routeResponse: {}
+         routeResponse: routeResponse
     }
 }
