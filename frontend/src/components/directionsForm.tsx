@@ -1,23 +1,11 @@
 "use client"
 
-import { ApiResult } from "@/app/ride/estimate/page";
 import car_app from "../assets/car_app.jpeg"
 import Image from "next/image";
+import { useApiResultContext } from "@/contexts/apiResult";
 
-type DirectionsFormProps = {
-    setCustomer_id: React.Dispatch<React.SetStateAction<string>>;
-    setOrigin: React.Dispatch<React.SetStateAction<string>>;
-    setDestination: React.Dispatch<React.SetStateAction<string>>;
-    setRouteUrl: React.Dispatch<React.SetStateAction<string>>;
-    customer_id: string;
-    origin: string;
-    destination: string;
-    setApiResult: React.Dispatch<React.SetStateAction<ApiResult>>;
-};
-
-
-export default function DirectionsForm ({ setCustomer_id, setOrigin, setDestination, setRouteUrl, customer_id, origin, destination, setApiResult }: DirectionsFormProps) {
-    
+export default function DirectionsForm () {
+    const { setCustomer_id, setOrigin, setDestination, setRouteUrl, customer_id, origin, destination, setApiResult } = useApiResultContext();
 
     const handleSubmit = async (event: React.FormEvent) => {
         event.preventDefault();
@@ -64,15 +52,15 @@ export default function DirectionsForm ({ setCustomer_id, setOrigin, setDestinat
         };
     }
     return (
-        <>
-        <form action="" onSubmit={handleSubmit} className="flex flex-col gap-3 border p-4">
-            <h2 className="text-gray-600">Informações de Viagem</h2>
-            <input type="text" placeholder="Insira seu cpf" className="border-b" value={customer_id || ""} onChange={(e) => setCustomer_id(e.target.value)}/>
-            <input type="text" placeholder="Endereço de origem" className="border-b" value={origin || ""} onChange={(e) => setOrigin(e.target.value)}/>
-            <input type="text" placeholder="Endereço de destino" className="border-b" value={destination || ""} onChange={(e) => setDestination(e.target.value)}/>
-            <button type="submit" className="rounded bg-green-700 p-1 text-white">Calcular Valor</button>
-        </form>
-        <Image src={car_app} width={300} alt="Imagem de um carro, um celular e uma pessoa" className="ml-10"/>
-        </>
+        <div className="items-center justify-center flex flex-col gap-3">
+            <form action="" onSubmit={handleSubmit} className="flex flex-col gap-3 border p-4">
+                <h2 className="text-gray-600">Informações de Viagem</h2>
+                <input type="text" placeholder="Insira seu cpf" className="border-b" value={customer_id || ""} onChange={(e) => setCustomer_id(e.target.value)}/>
+                <input type="text" placeholder="Endereço de origem" className="border-b" value={origin || ""} onChange={(e) => setOrigin(e.target.value)}/>
+                <input type="text" placeholder="Endereço de destino" className="border-b" value={destination || ""} onChange={(e) => setDestination(e.target.value)}/>
+                <button type="submit" className="rounded bg-green-700 p-1 text-white">Calcular Valor</button>
+            </form>
+            <Image src={car_app} width={200} alt="Imagem de um carro, um celular e uma pessoa"/>
+        </div>
     )
 }

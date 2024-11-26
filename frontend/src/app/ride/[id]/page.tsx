@@ -1,9 +1,16 @@
+"use client"
+
+import { RidesForm } from "@/components/ridesForm";
+import { useApiResultContext } from "@/contexts/apiResult";
+
 export default function GetRidesPage () {
+    const { result } = useApiResultContext()
     return (
-        <div>
-            <p>
-                Isso é um teste pagina get rides
-            </p>
+        <div className="">
+            <RidesForm />
+            <ul>
+                <li>{result.driver.name}</li>
+            </ul>
         </div>
     )
 }
