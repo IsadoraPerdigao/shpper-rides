@@ -1,8 +1,8 @@
-import React from 'react';
-import { ReactNode } from 'react';
-import Head from 'next/head';
-import Header from '@/components/header';
-import Footer from '@/components/footer';
+import React from "react";
+import { ReactNode } from "react";
+import Head from "next/head";
+import Header from "@/components/header";
+import Footer from "@/components/footer";
 
 // Tipagem para o componente Layout, indicando que ele recebe children (conteúdo da página)
 interface LayoutProps {
@@ -16,14 +16,14 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <title>Meu Layout - Next.js</title>
         <meta name="description" content="Exemplo de layout com Next.js" />
         <link rel="icon" href="/favicon.ico" />
-      </Head>  
-      <div className='flex flex-col items-center'>
+      </Head>
+      <div className="items-center flex flex-col justify-between h-screen">
         <Header />
-        
-            <main className=" m-0 p-[30px] w-[80%] h-[70%] flex flex-col bg-white p-">{children}</main>
-
+        <main className="h-full m-auto p-[20px] w-[80%] my-8 flex flex-col">
+          {children}
+        </main>
         <Footer />
-        </div>    
+      </div>
     </>
   );
 };
