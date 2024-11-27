@@ -13,6 +13,6 @@ router.post("/estimate", ensureDataIsValidMiddleware, createEstimatedRideHandler
 router.patch("/confirm", ensureDataIsValidMiddleware, confirmRideHandler);
 
 // /ride/123
-router.get("/:id", ensureIdIsValidMiddleware, ensureDriverIdIsValidMiddleware, getRidesByUserHandler);
+router.get("/:id", getRidesByUserHandler);
 
 export default router;

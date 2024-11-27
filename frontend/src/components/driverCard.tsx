@@ -31,7 +31,7 @@ export default function DriverCard({
   duration,
 }: DriverProps) {
   const router = useRouter();
-  const { origin, destination, customer_id, getRides } = useApiResultContext()
+  const { origin, destination, customer_id, getRides } = useApiResultContext();
 
   const handleClick = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -53,12 +53,13 @@ export default function DriverCard({
       // Send data to the backend
       await axios.patch("http://localhost:8080/ride/confirm", requestBody);
 
+      getRides(customer_id);
+
+      router.replace(`http://localhost:3000/ride/${customer_id}`);
+      
     } catch (error) {
       console.error("Error sending data to backend:", error);
     }
-
-    getRides(customer_id)
-    router.replace(`http://localhost:3000/ride/${customer_id}`);
   };
 
   return (

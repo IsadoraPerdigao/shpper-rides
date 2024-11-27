@@ -48,7 +48,7 @@ interface apiResultProvider {
   result: GetResult[];
   setHasDriver: Dispatch<SetStateAction<boolean>>;
   getRides: GetRides;
-  setDriverId: Dispatch<SetStateAction<number>>;
+  setDriverId: Dispatch<SetStateAction<string>>;
 }
 
 const ApiResutContext = createContext({} as apiResultProvider);
@@ -68,7 +68,7 @@ export function ApiResultProvider({ children }: Props) {
   });
   const [result, setGetResult] = useState<GetResult[]>([]);
   const [hasDriver, setHasDriver] = useState(false);
-  const [driverId, setDriverId] = useState(0);
+  const [driverId, setDriverId] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -103,6 +103,7 @@ export function ApiResultProvider({ children }: Props) {
   };
 
   const getRides = async (id: string | null) => {
+
     try {
       const baseUrl = `http://localhost:8080/ride/${id}`;
       const url = hasDriver ? `${baseUrl}?driver_id=${driverId}` : baseUrl;

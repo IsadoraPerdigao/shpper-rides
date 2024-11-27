@@ -1,8 +1,9 @@
 import { useApiResultContext } from "@/contexts/apiResult";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 interface DriverName {
-    name: string;
+  name: string;
+  id: string;
 }
 
 export function Select() {
@@ -27,12 +28,15 @@ export function Select() {
 
       const result = await response.json();
       setDriversNames(result);
+      console.log(result)
     } catch (error) {
       console.error("Error sending data to backend:", error);
     }
   };
 
-  getAllDrivers();
+  useEffect(() => {
+    getAllDrivers();
+  }, []);
 
   return (
     <select
@@ -40,25 +44,21 @@ export function Select() {
       id="drivers"
       className="p-2 rounded text-gray-500"
       onChange={(e) => {
-        const selectedDriver = drivers.find(
-          (driver) => driver.id === Number(e.target.value)
+        console.log(e.target.value)
+        const drivers = driversNames.find(
+          (driver) => driver.id == e.target.value
         );
+        
         setHasDriver(true);
-        setDriverId(selectedDriver!.id);
+        setDriverId(drivers!.id);
       }}
     >
       <option value="">Selecione um motorista</option>
-      {customer_id
-        ? drivers.map((driver) => (
-            <option key={driver.id} value={driver.id}>
-              {driver.name}
-            </option>
-          ))
-        : driversNames.map((driver, index) => (
-            <option key={index} value={driver.name}>
-              {driver.name}
-            </option>
-          ))}
+      {driversNames.map((driver, index) => (
+        <option key={index} value={driver.id}>
+          {driver.name}
+        </option>
+      ))}
     </select>
   );
 }
