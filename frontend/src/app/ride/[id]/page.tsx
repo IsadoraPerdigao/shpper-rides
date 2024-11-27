@@ -1,16 +1,15 @@
-"use client"
+"use client";
 
 import { RidesForm } from "@/components/ridesForm";
+import { RidesList } from "@/components/ridesLit";
 import { useApiResultContext } from "@/contexts/apiResult";
+import { useCallback, useEffect, useState } from "react";
 
-export default function GetRidesPage () {
-    const { result } = useApiResultContext()
-    return (
-        <div className="">
-            <RidesForm />
-            <ul>
-                <li>{result.driver.name}</li>
-            </ul>
-        </div>
-    )
+export default function GetRidesPage() {
+  return (
+    <div className="">
+      <RidesForm />
+      <RidesList />
+    </div>
+  );
 }

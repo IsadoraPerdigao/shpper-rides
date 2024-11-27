@@ -20,6 +20,7 @@ export function getRidesService (customerId: string, driverId?: number) {
         let duration = ride.duration;
         let value = ride.value;
         let driverIdBd = ride.driver_id;
+        let distance = ride.distance_km;
         
         const [dateStr, timeStr] = ride.date.toLocaleString().split(', '); 
         const [day, month, year] = dateStr.split('/');    
@@ -44,6 +45,7 @@ export function getRidesService (customerId: string, driverId?: number) {
                 origin,
                 destination,
                 duration,
+                distance,
                 driver,
                 value
             });

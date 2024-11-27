@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { getDriversDataHandler } from "../handlers/data.handler";
+import { getDriversDataHandler } from "../handlers/driversNames.handler";
 
 const dataRouter = Router();
 
