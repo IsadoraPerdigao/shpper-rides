@@ -7,11 +7,9 @@ interface DriverName {
 }
 
 export function Select() {
-  const { apiResult, setHasDriver, setDriverId, customer_id } =
+  const { setHasDriver, setDriverId } =
     useApiResultContext();
   const [driversNames, setDriversNames] = useState<DriverName[]>([]);
-
-  const drivers = apiResult.options;
 
   const getAllDrivers = async () => {
     try {

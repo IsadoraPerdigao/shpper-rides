@@ -1,0 +1,14 @@
+must:
+- tratamento de erros
+- readme ok
+- docker
+- .env com chave da api
+- porta 80 pra front
+
+fortemente desejavel:
+- layout
+- reponsividade
+
+levemente desejavel:
+- testes 
+

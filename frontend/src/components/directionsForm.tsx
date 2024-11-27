@@ -9,11 +9,9 @@ export default function DirectionsForm() {
     setCustomer_id,
     setOrigin,
     setDestination,
-    setRouteUrl,
     customer_id,
     origin,
     destination,
-    setApiResult,
     handleSubmit,
   } = useApiResultContext();
 
