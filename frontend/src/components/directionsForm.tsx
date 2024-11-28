@@ -27,24 +27,27 @@ export default function DirectionsForm() {
           type="text"
           placeholder="Insira seu cpf"
           className="border-b"
-          value={customer_id || ""}
+          value={customer_id}
           onChange={(e) => setCustomer_id(e.target.value)}
         />
+        
         <input
           type="text"
           placeholder="Endereço de origem"
           className="border-b"
-          value={origin || ""}
+          value={origin}
           onChange={(e) => setOrigin(e.target.value)}
         />
+        
         <input
           type="text"
           placeholder="Endereço de destino"
           className="border-b"
-          value={destination || ""}
+          value={destination}
           onChange={(e) => setDestination(e.target.value)}
         />
-        <button type="submit" className="rounded bg-green-700 p-1 text-white">
+        
+        <button type="submit" disabled={!customer_id || !origin || !destination ? true : false} className="rounded bg-green-700 p-1 text-white disabled:bg-gray-300">
           Calcular Valor
         </button>
       </form>

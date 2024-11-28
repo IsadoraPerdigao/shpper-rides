@@ -30,7 +30,7 @@ export function RidesForm() {
         <button
           type="submit"
           disabled={customer_id ? false : true}
-          className="bg-green-700 p-2 rounded text-white"
+          className="bg-green-700 p-1 rounded text-white disabled:bg-gray-300"
         >
           Buscar
         </button>

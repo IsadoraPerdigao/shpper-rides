@@ -33,8 +33,8 @@ export interface GetResult {
 }
 
 interface apiResultProvider {
-  customer_id: string | null;
-  setCustomer_id: Dispatch<SetStateAction<string | null>>;
+  customer_id: string;
+  setCustomer_id: Dispatch<SetStateAction<string>>;
   setOrigin: Dispatch<SetStateAction<string>>;
   setDestination: Dispatch<SetStateAction<string>>;
   routeUrl: string;
@@ -54,7 +54,7 @@ interface apiResultProvider {
 const ApiResutContext = createContext({} as apiResultProvider);
 
 export function ApiResultProvider({ children }: Props) {
-  const [customer_id, setCustomer_id] = useState<string | null>(null);
+  const [customer_id, setCustomer_id] = useState<string>("");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [routeUrl, setRouteUrl] = useState("");
@@ -97,7 +97,8 @@ export function ApiResultProvider({ children }: Props) {
       const directionsUrl = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyBBKTGBLTwv-0H81vaKx0IKbOaOKA-fz3Y&origin=${encodedOrigin}&destination=${encodedDestination}`;
 
       setRouteUrl(directionsUrl);
-    } catch (error) {
+    } catch (error){
+      alert("Ocorreu um erro. Por favor, tente outra vez!")
       console.error("Error sending data to backend:", error);
     }
   };

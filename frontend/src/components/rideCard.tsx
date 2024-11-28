@@ -28,7 +28,8 @@ export function RideCard({
     <div>
       <h3>{driver.name}</h3>
       <div>
-        <div>
+        <div className="flex"
+        >
           <p>{formattedDate}</p>
           <p>{value}</p>
         </div>
