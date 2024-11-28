@@ -1,0 +1,16 @@
+services:
+  frontend:
+    build: ./frontend  # Diretório do seu frontend
+    image: frontend:latest
+    ports:
+      - "80:80"  # Porta 80 para o frontend
+    depends_on:
+      - backend  # Garante que o backend inicie primeiro
+
+  backend:
+    build: ./backend  # Diretório do seu backend
+    image: backend:latest
+    ports:
+      - "8080:8080"  # Porta 8080 para o backend
+    environment:
+      - GOOGLE_API_KEY=${GOOGLE_API_KEY}  # Variável de ambiente
