@@ -55,7 +55,7 @@ export default function DriverCard({
 
       getRides(customer_id);
 
-      router.replace(`http://localhost:3000/ride/${customer_id}`);
+      router.replace(`http://localhost/ride/${customer_id}`);
       
     } catch (error) {
       console.error("Error sending data to backend:", error);

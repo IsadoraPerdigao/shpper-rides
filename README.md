@@ -109,7 +109,7 @@ services:
   frontend:
     build: ./frontend 
     ports:
-      - "80:3000"  
+      - "80:80"  
     depends_on:
       - backend  
 
