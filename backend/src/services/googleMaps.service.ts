@@ -1,6 +1,10 @@
 import axios from "axios";
+import path from 'path';
 
-const apiKey = "AIzaSyBBKTGBLTwv-0H81vaKx0IKbOaOKA-fz3Y"
+import dotenv from 'dotenv';
+dotenv.config({ path: path.resolve(__dirname, '../../.env') });
+
+const apiKey = process.env.GOOGLE_API_KEY;
 const coordinatesUrl = "https://maps.googleapis.com/maps/api/geocode/json"
 const distanceUrl = "https://maps.googleapis.com/maps/api/distancematrix/json"
 const routeResponseUrl = "https://maps.googleapis.com/maps/api/directions/json"
