@@ -36,7 +36,7 @@ export default function EstimateRidePage() {
 
   return (
     <div className="flex">
-      <div className="flex flex-col w-2/5 h-full">
+      <div className="flex flex-col w-2/5">
         {routeUrl ? (
           <DriversList apiResult={apiResult} />
         ) : (

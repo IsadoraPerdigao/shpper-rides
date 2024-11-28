@@ -9,7 +9,7 @@ export function RidesForm() {
   const { setCustomer_id, customer_id, getRides } = useApiResultContext();
 
   return (
-    <div className="items-center justify-center flex flex-col gap-3">
+    <div className="items-center justify-center flex flex-col gap-3 sticky top-5 h-[80%]">
       <form
         action=""
         onSubmit={(e) => {
@@ -37,7 +37,7 @@ export function RidesForm() {
       </form>
       <Image
         src={car_app}
-        width={200}
+        width={300}
         alt="Imagem de um carro, um celular e uma pessoa"
       />
     </div>

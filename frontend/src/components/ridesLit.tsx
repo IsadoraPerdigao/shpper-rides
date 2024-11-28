@@ -5,7 +5,7 @@ export function RidesList() {
   const { result } = useApiResultContext();
 
   return (
-    <ul>
+    <ul className="flex flex-col gap-3">
       {result.map((ride) => (
         <RideCard
           key={ride.id}

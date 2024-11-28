@@ -58,13 +58,15 @@ export async function getRidesByUserHandler(
       });
     }
 
-    if (!driver) {
-      response
-        .status(404)
-        .json({
-          error_code: "INVALID_DRIVER",
-          error_description: "Nenhum motorista encontrado",
-        });
+    if (driverId) {
+      if (!driver) {
+        response
+          .status(404)
+          .json({
+            error_code: "INVALID_DRIVER",
+            error_description: "Nenhum motorista encontrado",
+          });
+      }
     }
 
     const rides = getRidesService(id, driverId);
