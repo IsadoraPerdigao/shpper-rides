@@ -3,9 +3,9 @@ import express, { NextFunction, Request, Response } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import path from 'path';
+import { createTables } from './createsDB';
 dotenv.config({ path: path.resolve(__dirname, '../../.env') });
-console.log('diiiiiir ', path.resolve(__dirname, '../../.env'));
-// console.log('Environment Variables:', process.env);
+
 import ridesRouter from './routes/rides.route';
 import dataRouter from './routes/drivers.route';
 
@@ -18,6 +18,7 @@ app.use(cors());
 app.use('/ride', ridesRouter);
 app.use('/drivers', dataRouter);
 
+createTables();
 app.listen(PORT, () => {
   console.log(`Running on Port ${PORT}`);
 });

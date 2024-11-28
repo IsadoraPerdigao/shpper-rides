@@ -3,7 +3,7 @@ import { getDB } from './database';
 const db = getDB();
 
 // Create tables
-const createTables = () => {
+export const createTables = () => {
   // Create the Customers table
   db.exec(`
     CREATE TABLE IF NOT EXISTS Customers (
@@ -41,7 +41,6 @@ const createTables = () => {
       FOREIGN KEY (driver_id) REFERENCES Drivers(id)
     );
   `);
-  
 
   // Create the Estimates table
   db.exec(`
@@ -58,7 +57,6 @@ const createTables = () => {
     );
 `);
 
-  console.log("Tables created successfully!");
+  console.log('Tables created successfully!');
 };
 
-createTables();
