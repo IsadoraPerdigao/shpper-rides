@@ -1,16 +1,13 @@
-"use client"
+"use client";
 
 import { RidesForm } from "@/components/ridesForm";
-import { useApiResultContext } from "@/contexts/apiResult";
+import { RidesList } from "@/components/ridesLit";
 
-export default function GetRidesPage () {
-    const { result } = useApiResultContext()
-    return (
-        <div className="">
-            <RidesForm />
-            <ul>
-                <li>{result.driver.name}</li>
-            </ul>
-        </div>
-    )
+export default function GetRidesPage() {
+  return (
+    <div className="flex justify-around h-full">
+      <RidesForm />
+      <RidesList />
+    </div>
+  );
 }

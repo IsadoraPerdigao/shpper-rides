@@ -17,9 +17,9 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         <meta name="description" content="Exemplo de layout com Next.js" />
         <link rel="icon" href="/favicon.ico" />
       </Head>
-      <div className="items-center flex flex-col justify-between h-screen">
+      <div className="items-center flex flex-col justify-between">
         <Header />
-        <main className="h-full m-auto p-[20px] w-[80%] my-8 flex flex-col">
+        <main className="m-auto p-[20px] w-[80%] my-8 flex flex-col">
           {children}
         </main>
         <Footer />

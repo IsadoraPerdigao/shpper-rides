@@ -1,48 +1,60 @@
 "use client";
 
 import { ApiResult } from "@/app/ride/estimate/page";
-import { createContext, Dispatch, ReactNode, SetStateAction, useContext, useState } from "react";
+import axios from "axios";
+import {
+  createContext,
+  Dispatch,
+  ReactNode,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 
-export type SubmitHandler = (event: React.FormEvent) => Promise<void>;
+type SubmitHandler = (event: React.FormEvent) => Promise<void>;
+type GetRides = (id: string | null) => Promise<void>;
 
 interface Props {
   children: ReactNode;
 }
 
-interface GetResult {
-    
-    id: number;
-    date: Date;
-    origin: string;
-    destination: string;
-    duration: string;
-    driver: {
-        driverIdBd: number;
-        name: string;
-    },
-    value: number;
+export interface GetResult {
+  id: number;
+  date: Date;
+  origin: string;
+  destination: string;
+  duration: string;
+  distance: number;
+  driver: {
+    driverIdBd: number;
+    name: string;
+  };
+  value: number;
 }
 
 interface apiResultProvider {
-    customer_id: string;
-    setCustomer_id: Dispatch<SetStateAction<string>>;
-    setOrigin: Dispatch<SetStateAction<string>>;
-    setDestination: Dispatch<SetStateAction<string>>;
-    routeUrl: string;
-    apiResult: ApiResult;
-    handleSubmit: SubmitHandler;
-    setRouteUrl: Dispatch<SetStateAction<string>>;
-    origin: string;
-    destination: string;
-    setApiResult: Dispatch<SetStateAction<ApiResult>>;
-    setGetResult: Dispatch<SetStateAction<GetResult>>
-    result: GetResult;
+  customer_id: string;
+  setCustomer_id: Dispatch<SetStateAction<string>>;
+  setOrigin: Dispatch<SetStateAction<string>>;
+  setDestination: Dispatch<SetStateAction<string>>;
+  routeUrl: string;
+  apiResult: ApiResult;
+  handleSubmit: SubmitHandler;
+  setRouteUrl: Dispatch<SetStateAction<string>>;
+  origin: string;
+  destination: string;
+  setApiResult: Dispatch<SetStateAction<ApiResult>>;
+  setGetResult: Dispatch<SetStateAction<GetResult[]>>;
+  result: GetResult[];
+  setHasDriver: Dispatch<SetStateAction<boolean>>;
+  getRides: GetRides;
+  setDriverId: Dispatch<SetStateAction<string>>;
 }
 
 const ApiResutContext = createContext({} as apiResultProvider);
 
 export function ApiResultProvider({ children }: Props) {
-  const [customer_id, setCustomer_id] = useState("");
+  const [customer_id, setCustomer_id] = useState<string>("");
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
   const [routeUrl, setRouteUrl] = useState("");
@@ -54,18 +66,9 @@ export function ApiResultProvider({ children }: Props) {
     duration: "",
     routeResponse: {},
   });
-  const [result, setGetResult] = useState<GetResult>({
-    id: 0,
-    date: new Date(),
-    origin: "",
-    destination: "",
-    duration: "",
-    driver: {
-        driverIdBd: 0,
-        name: ""
-    },
-    value: 0
-  });
+  const [result, setGetResult] = useState<GetResult[]>([]);
+  const [hasDriver, setHasDriver] = useState(false);
+  const [driverId, setDriverId] = useState("");
 
   const handleSubmit = async (event: React.FormEvent) => {
     event.preventDefault();
@@ -76,27 +79,17 @@ export function ApiResultProvider({ children }: Props) {
       origin,
       destination,
     };
-    // Saves customer_id to localstorage
-    localStorage.setItem("customer_id", customer_id);
-    localStorage.setItem("origin_address", origin);
-    localStorage.setItem("destination_address", destination);
 
     try {
       // Send form data to the backend
-      const response = await fetch("http://localhost:8080/ride/estimate", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await axios.post(
+        "http://localhost:8080/ride/estimate",
+        formData
+      );
 
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setApiResult(result);
+      const result = await response;
+      setApiResult(result.data);
+      setCustomer_id(customer_id)
 
       const encodedOrigin = encodeURIComponent(origin);
       const encodedDestination = encodeURIComponent(destination);
@@ -104,29 +97,52 @@ export function ApiResultProvider({ children }: Props) {
       const directionsUrl = `https://www.google.com/maps/embed/v1/directions?key=AIzaSyBBKTGBLTwv-0H81vaKx0IKbOaOKA-fz3Y&origin=${encodedOrigin}&destination=${encodedDestination}`;
 
       setRouteUrl(directionsUrl);
-    } catch (error) {
+    } catch (error){
+      alert("Ocorreu um erro. Por favor, tente outra vez!")
       console.error("Error sending data to backend:", error);
     }
   };
 
+  const getRides = async (id: string | null) => {
+
+    try {
+      const baseUrl = `http://localhost:8080/ride/${id}`;
+      const url = hasDriver ? `${baseUrl}?driver_id=${driverId}` : baseUrl;
+      const response = await axios.get(url);
+      const result = await response;
+
+      setGetResult(result.data);
+    } catch (error) {
+      console.error("Error sending data to backend:", error);
+    }
+
+    return
+  };
 
   return (
-    <ApiResutContext.Provider value={{
+    <ApiResutContext.Provider
+      value={{
         customer_id,
         setCustomer_id,
         setOrigin,
         setDestination,
         routeUrl,
-        apiResult, 
+        apiResult,
         handleSubmit,
         setRouteUrl,
         origin,
         destination,
         setApiResult,
         setGetResult,
-        result
-    }}>{children}</ ApiResutContext.Provider >
-  )
+        result,
+        setDriverId,
+        setHasDriver,
+        getRides,
+      }}
+    >
+      {children}
+    </ApiResutContext.Provider>
+  );
 }
 
 export const useApiResultContext = () => useContext(ApiResutContext);

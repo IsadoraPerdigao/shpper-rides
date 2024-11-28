@@ -6,36 +6,16 @@ import { Select } from "./select";
 import { useApiResultContext } from "@/contexts/apiResult";
 
 export function RidesForm() {
-  const { setCustomer_id, setGetResult, customer_id } = useApiResultContext();
-
-  const handleGetSubmit = async () => {
-    try {
-      const response = await fetch(
-        `http://localhost:8080/ride/${customer_id}`,
-        {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        }
-      );
-
-      if (!response.ok) {
-        throw new Error(`HTTP error! Status: ${response.status}`);
-      }
-
-      const result = await response.json();
-      setGetResult(result);
-    } catch (error) {
-      console.error("Error sending data to backend:", error);
-    }
-  };
+  const { setCustomer_id, customer_id, getRides } = useApiResultContext();
 
   return (
-    <div className="items-center justify-center flex flex-col gap-3">
+    <div className="items-center justify-center flex flex-col gap-3 sticky top-5 h-[80%]">
       <form
         action=""
-        onSubmit={handleGetSubmit}
+        onSubmit={(e) => {
+          e.preventDefault();
+          getRides(customer_id);
+        }}
         className="flex flex-col gap-3 border p-4"
       >
         <h2 className="text-gray-600">Viagens realizadas</h2>
@@ -47,11 +27,17 @@ export function RidesForm() {
           onChange={(e) => setCustomer_id(e.target.value)}
         />
         <Select />
-        <button type="submit">Buscar</button>
+        <button
+          type="submit"
+          disabled={customer_id ? false : true}
+          className="bg-green-700 p-1 rounded text-white disabled:bg-gray-300"
+        >
+          Buscar
+        </button>
       </form>
       <Image
         src={car_app}
-        width={200}
+        width={300}
         alt="Imagem de um carro, um celular e uma pessoa"
       />
     </div>

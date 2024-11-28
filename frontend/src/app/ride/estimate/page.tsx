@@ -26,8 +26,8 @@ export interface ApiResult {
 }
 
 export default function EstimateRidePage() {
-
-  const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=São+Paulo,SP&zoom=10&size=600x400&key=AIzaSyBBKTGBLTwv-0H81vaKx0IKbOaOKA-fz3Y`;
+  const googleApiKey = process.env.GOOGLE_API_KEY;
+  const staticMapUrl = `https://maps.googleapis.com/maps/api/staticmap?center=São+Paulo,SP&zoom=10&size=600x400&key=${googleApiKey}`;
 
   const {
     apiResult,
@@ -36,7 +36,7 @@ export default function EstimateRidePage() {
 
   return (
     <div className="flex">
-      <div className="flex flex-col w-2/5 h-full">
+      <div className="flex flex-col w-2/5">
         {routeUrl ? (
           <DriversList apiResult={apiResult} />
         ) : (
